@@ -30,22 +30,31 @@ class Parser:
     
         with open(path, "r") as f:
             tex = TexSoup(f)
+
+            # Find all figure environments.
+            found = list(tex.find_all("figure"))
+
             # Loop over all figures in the document.
-            for figure in tex.figure:
+            for f in found:
+
                 # Get the path to the figure.
-                path = os.path.abspath(figure.includegraphics.args[-1])
+                path = os.path.abspath(f.includegraphics.args[-1])
                 
                 # Only consider PDF figures.
                 if(path.split(".")[-1] != "pdf"):
                     continue
                 
                 # Parse the remaining Pynea parameters.
-                script = Script(os.path.abspath(figure.pyneascript.args[0]))
-                command = figure.pyneacommand.args[0]
-                dependencies = [Dependency(os.path.abspath(d)) for d in figure.pyneadependencies.args[0].split()]
+                try:
+                    script = Script(os.path.abspath(f.pyneascript.args[0]))
+                    command = f.pyneacommand.args[0]
+                    dependencies = [Dependency(os.path.abspath(d)) for d in f.pyneadependencies.args[0].split()]
                 
-                figure = Figure(path, script, command, dependencies)
-                figures.append(figure)
-    
+                    figure = Figure(path, script, command, dependencies)
+                    figures.append(figure)
+                except AttributeError as e:
+                    print("Warning: No script, command and/or dependencies specified for figure %s. Skipping..." % (path))
+                    continue
+
         return figures
 
