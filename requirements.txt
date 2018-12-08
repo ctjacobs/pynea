@@ -1,0 +1,3 @@
+TexSoup
+GitPython
+PyMuPDF
