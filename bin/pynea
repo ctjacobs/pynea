@@ -8,6 +8,7 @@ Pynea facilitates the reproducibility of LaTeX documents by embedding the script
 Pynea is released under the MIT license. See the file LICENSE.md for more details.
 """
 
+import os.path
 import argparse
 
 from pynea.document import Document
@@ -55,4 +56,4 @@ if(__name__ == "__main__"):
     args = parser.parse_args()
 
     p = Pynea()
-    p.run(args.path)
+    p.run(os.path.abspath(args.path))

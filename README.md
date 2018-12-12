@@ -32,7 +32,8 @@ Each figure within the LaTeX document, specified using `\includegraphics`, can t
 Once all Pynea commands have been included in the figure environments, Pynea can be used to compile the document and embed the relevant files by running:
 
 ```
-pynea /path/to/latex/file.tex
+cd /path/to/document/directory
+pynea example.tex
 ```
 
 ## Contact

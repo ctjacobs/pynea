@@ -38,7 +38,7 @@ class Parser:
             for f in found:
 
                 # Get the path to the figure.
-                path = os.path.abspath(f.includegraphics.args[-1])
+                path = os.path.abspath(os.path.join(os.path.dirname(path), f.includegraphics.args[-1]))
                 
                 # Only consider PDF figures.
                 if(path.split(".")[-1] != "pdf"):
