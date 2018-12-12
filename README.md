@@ -36,6 +36,8 @@ cd /path/to/document/directory
 pynea example.tex
 ```
 
+Opening the resulting document in a PDF viewer such as Adobe Reader and clicking the Attachments tab will list the embedded files.
+
 ## Contact
 
 Please contact [Christian Jacobs](http://christianjacobs.uk) if you have any feedback about the project.
