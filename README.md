@@ -1,6 +1,6 @@
 # Pynea
 
-Pynea facilitates the reproducibility of [LaTeX](https://www.latex-project.org/) documents by embedding the scripts and dependencies required to regenerate the figures within the document itself.
+Pynea facilitates the reproducibility of [LaTeX](https://www.latex-project.org/) documents by embedding the scripts and data files required to regenerate the figures within the document itself. If the scripts and data are stored under Git version control, then the figures are only regenerated if those dependencies have been modified. The command used to execute the script is also embedded within the metadata of the figure. Note that only PDF figures are currently supported.
 
 ## Installing
 
