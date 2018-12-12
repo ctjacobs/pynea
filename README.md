@@ -29,6 +29,21 @@ Each figure within the LaTeX document, specified using `\includegraphics`, can t
 * `\pyneacommand{python3 example.py}` tells Pynea that the script is to be executed using `python3`.
 * `\pyneadependencies{example1.dat example2.dat}` tells Pynea that the script depends on two data files, `example1.dat` and `example2.dat`.
 
+For example, you may have something like:
+
+```
+\begin{figure}[!ht]
+   \begin{center}
+      \includegraphics{../pynea_test/images/sine.pdf}
+      \caption{Test image caption.}
+      \label{fig:sinepdf}
+      \pyneascript{/home/christian/pynea_test/sine.py}
+      \pyneacommand{python3 sine.py}
+      \pyneadependencies{/home/christian/pynea_test/data1.txt /home/christian/pynea_test/data2.txt}
+   \end{center}
+\end{figure}
+```
+
 Once all Pynea commands have been included in the figure environments, Pynea can be used to compile the document and embed the relevant files by running:
 
 ```
