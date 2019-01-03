@@ -3,7 +3,7 @@
 """
 Copyright (C) 2018 Christian Thomas Jacobs
 
-Pynea facilitates the reproducibility of LaTeX documents by embedding the scripts and dependencies required to regenerate the figures within the document itself.
+Pynea facilitates the reproducibility of LaTeX documents by embedding the scripts and data files required to regenerate the figures within the document itself.
 
 Pynea is released under the MIT license. See the file LICENSE.md for more details.
 """
@@ -17,14 +17,14 @@ from pynea.document import Document
 class Pynea:
 
     """ A system for ensuring that all PDF figures of a LaTeX document are reproducible.
-    Each figure has embedded within it the script which generated it and the data dependencies that it requires.
+    Each figure has embedded within it the script which generated it and the data files that it requires.
     Each figure is then in turn embedded within the compiled LaTeX document (compiled using pdflatex). """
 
     def __init__(self):
         return
 
     def run(self, tex):
-        """ Run all the commands required to embed the script and depedencies within a PDF figure file,
+        """ Run all the commands required to embed the script and data files within a PDF figure file,
         and then subsequently embed the figures within the compiled LaTeX document. """
 
         # Parse the target LaTeX document.

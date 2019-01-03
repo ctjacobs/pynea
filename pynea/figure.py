@@ -3,7 +3,7 @@
 """
 Copyright (C) 2018 Christian Thomas Jacobs
 
-Pynea facilitates the reproducibility of LaTeX documents by embedding the scripts and dependencies required to regenerate the figures within the document itself.
+Pynea facilitates the reproducibility of LaTeX documents by embedding the scripts and data files required to regenerate the figures within the document itself.
 
 Pynea is released under the MIT license. See the file LICENSE.md for more details.
 """
@@ -21,7 +21,7 @@ class Figure(Resource):
 
     """ A figure to be included in the LaTeX document. """
 
-    def __init__(self, path, script, command, dependencies):
+    def __init__(self, path, script, command, data):
         """ Save the path to the figure file and resources used to generate it. """
 
         # The path to the figure file itself.
@@ -30,13 +30,13 @@ class Figure(Resource):
         self.script = script
         # The command used to execute the script.
         self.command = command
-        # Any data files, etc, that the script depends on.
-        self.dependencies = dependencies    
+        # Any data files that the script depends on.
+        self.data = data    
         return
     
     @property
     def is_modified(self):
-        """ Return True if the figure, script, dependencies and/or command has changed. """
+        """ Return True if the figure, script, data and/or command has changed. """
 
         # Has the figure itself changed?
         figure_modified = super(Figure, self).is_modified
@@ -44,9 +44,9 @@ class Figure(Resource):
             # Has the script which generated the figure changed?
             script_modified = self.script.is_modified
             if(not script_modified):
-                # Have the script's dependencies changed?
-                dependencies_modified = any([d.is_modified for d in self.dependencies])
-                if(not dependencies_modified):
+                # Have the script's data files changed?
+                data_modified = any([d.is_modified for d in self.data])
+                if(not data_modified):
                     # Has the command used to run the script changed?
                     # Open figure and obtain the previously-used command from the metadata.      
                     pdf = fitz.open(self.path)
@@ -76,9 +76,9 @@ class Figure(Resource):
         return return_code
         
     def embed(self):
-        """ Embed the script and dependencies in the figure. """
+        """ Embed the script and data files in the figure. """
 
-        # Open the PDF file that will host the script file and dependencies.
+        # Open the PDF file that will host the script file and data files.
         pdf = fitz.open(self.path)
     
         # Embed script.
@@ -89,13 +89,13 @@ class Figure(Resource):
             pdf.embeddedFileAdd(b, self.script.path)
         pdf.save(pdf.name, incremental=True)
                 
-        # Embed dependencies (e.g. data files).
-        for dependency in self.dependencies:
-            b = open(dependency.path, "rb").read()
+        # Embed data files.
+        for data in self.data:
+            b = open(data.path, "rb").read()
             try:
-                pdf.embeddedFileUpd(dependency.path, b)
+                pdf.embeddedFileUpd(data.path, b)
             except:
-                pdf.embeddedFileAdd(b, dependency.path)
+                pdf.embeddedFileAdd(b, data.path)
             pdf.save(pdf.name, incremental=True)
             
         # Embed metadata (including command used to run the script).

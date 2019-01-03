@@ -3,7 +3,7 @@
 """
 Copyright (C) 2018 Christian Thomas Jacobs
 
-Pynea facilitates the reproducibility of LaTeX documents by embedding the scripts and dependencies required to regenerate the figures within the document itself.
+Pynea facilitates the reproducibility of LaTeX documents by embedding the scripts and data files required to regenerate the figures within the document itself.
 
 Pynea is released under the MIT license. See the file LICENSE.md for more details.
 """
@@ -13,7 +13,7 @@ import os.path
 
 from pynea.figure import Figure
 from pynea.script import Script
-from pynea.dependency import Dependency
+from pynea.data import Data
 
 
 class Parser:
@@ -25,7 +25,7 @@ class Parser:
         
     def read(self, path):
         """ Read the .tex file and return a list of Figure objects that represent each figure included in the .tex file,
-        and include the paths to the script and the dependencies that each figure relies on. """
+        and include the paths to the script and the data files that each figure relies on. """
         figures = []
     
         with open(path, "r") as f:
@@ -48,12 +48,12 @@ class Parser:
                 try:
                     script = Script(os.path.abspath(f.pyneascript.args[0]))
                     command = f.pyneacommand.args[0]
-                    dependencies = [Dependency(os.path.abspath(d)) for d in f.pyneadependencies.args[0].split()]
+                    data = [Data(os.path.abspath(d)) for d in f.pyneadata.args[0].split()]
                 
-                    figure = Figure(path, script, command, dependencies)
+                    figure = Figure(path, script, command, data)
                     figures.append(figure)
                 except AttributeError as e:
-                    print("Warning: No script, command and/or dependencies specified for figure %s. Skipping..." % (path))
+                    print("Warning: No script, command and/or data files specified for figure %s. Skipping..." % (path))
                     continue
 
         return figures

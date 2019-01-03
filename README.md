@@ -17,7 +17,7 @@ Pynea itself can then be installed with:
 sudo python3 setup.py install
 ```
 
-The `pynea.sty` file in the `tex` directory contains 3 custom macros for use in each figure environment. These macros assist Pynea in locating the relevant script and dependencies that are to be embedded. You can either copy this style file into the same directory as the .tex file you wish to compile, or copy it into your LaTeX installation to achieve a global installation.
+The `pynea.sty` file in the `tex` directory contains 3 custom macros for use in each figure environment. These macros assist Pynea in locating the relevant script and data files that are to be embedded. You can either copy this style file into the same directory as the .tex file you wish to compile, or copy it into your LaTeX installation to achieve a global installation.
 
 ## Usage
 
@@ -25,22 +25,18 @@ The `pynea` LaTeX style file should first be included in the LaTeX preamble usin
 
 Each figure within the LaTeX document, specified using `\includegraphics`, can then be augmented with the following 3 statements:
 
-* `\pyneascript{example.py}` tells Pynea that the figure was generated using a file called `example.py`.
-* `\pyneacommand{python3 example.py}` tells Pynea that the script is to be executed using `python3`.
-* `\pyneadependencies{example1.dat example2.dat}` tells Pynea that the script depends on two data files, `example1.dat` and `example2.dat`.
+* `\pyneascript{plot.py}` tells Pynea that the figure was generated using a file called `plot.py`.
+* `\pyneacommand{python3 plot.py}` tells Pynea that the script is to be executed using `python3`.
+* `\pyneadata{data1.dat data2.dat}` tells Pynea that the script depends on two data files, `data1.dat` and `data2.dat`.
 
 For example, you may have something like:
 
 ```
-\begin{figure}[!ht]
-   \begin{center}
-      \includegraphics{../pynea_test/images/sine.pdf}
-      \caption{Test image caption.}
-      \label{fig:sinepdf}
-      \pyneascript{/home/christian/pynea_test/sine.py}
-      \pyneacommand{python3 sine.py}
-      \pyneadependencies{/home/christian/pynea_test/data1.txt /home/christian/pynea_test/data2.txt}
-   \end{center}
+\begin{figure}
+  \includegraphics{/home/christian/my_paper/images/plot.pdf}
+  \pyneascript{/home/christian/my_scripts/plot.py}
+  \pyneacommand{python3 plot.py}
+  \pyneadata{/home/christian/my_data/data1.txt /home/christian/my_data/data2.txt}
 \end{figure}
 ```
 

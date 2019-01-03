@@ -11,8 +11,8 @@ Pynea is released under the MIT license. See the file LICENSE.md for more detail
 from pynea.resource import Resource
 
 
-class Script(Resource):
-
-    """ A script used to produce a figure in the LaTeX document. """
+class Data(Resource):
+    
+    """ A data file needed by a figure's script. """
 
     pass
